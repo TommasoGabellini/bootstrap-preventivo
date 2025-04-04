@@ -4,120 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bool Factory - Richiesta Preventivo</title>
-    <!-- Bootstrap izio -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .footer {
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .card-container {
+                margin-top: 2rem;
+            }
+            .price-container {
+                margin-top: 1rem;
+                justify-content: center !important;
+            }
+        }
+        
+        .promo-error {
+            color: #dc3545;
+            font-size: 0.875rem;
+            display: none;
+        }
+        
+        .promo-success {
+            color: #28a745;
+            font-size: 0.875rem;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-        <div class="container-fluid col-12">
+        <div class="container-fluid">
             <div class="col-1"></div>
-          <a class="navbar-brand col-8" href="#">Bool Factory</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link " aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Servizi</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Contatti</a>
-              </li>
-            </ul>
-          </div>
+            <a class="navbar-brand col-8" href="#">Bool Factory</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Servizi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contatti</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </nav>
-      
-      <div class="container my-2">
-    <div class="row">
-        <div class="col-6">            
-            <h4 class="my-1">Richiesta Preventivo</h4>
-            <p>Compila il form per richiedere un preventivo per i nostri servizi di sviluppo.</p>
-            
-            <form class="mt-4">
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Nome</label>
-                    <input type="text" class="form-control">
-                </div>
+    </nav>
+    
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <h4 class="my-1">Richiesta Preventivo</h4>
+                <p>Compila il form per richiedere un preventivo per i nostri servizi di sviluppo.</p>
+                
+                <form id="preventivoForm" class="mt-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Nome</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Cognome</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                    </div>
 
-                <form class="mt-4">
-                  <div class="mb-3">
-                      <label class="form-label fw-bold">Cognome</label>
-                      <input type="text" class="form-control">
-                  </div>
-
-                  <form class="mt-4">
                     <div class="mb-3">
                         <label class="form-label fw-bold">Email</label>
-                        <input type="text" class="form-control">
+                        <input type="email" class="form-control" required>
                     </div>
 
-                    <label class="form-label fw-bold">Tipo di lavoro</label>
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected>Seleziona il tipo di lavoro</option>
-                      <option value="1">Mematore</option>
-                      <option value="2">Funambolo su spaghetti scotti</option>
-                      <option value="3">Leccatore di francobolli</option>
-                    </select>
-
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tipo di lavoro</label>
+                        <select id="tipoLavoro" class="form-select" required>
+                            <option value="" selected disabled>Seleziona il tipo di lavoro</option>
+                            <option value="backend">Sviluppo Backend</option>
+                            <option value="frontend">Sviluppo Frontend</option>
+                            <option value="analisi">Analisi Progettuale</option>
+                        </select>
+                    </div>
                     
-                    <div class="my-3">
-                      <label class="form-label fw-bold">Textarea con Bootstrap 5</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Descrizione</label>
+                        <textarea class="form-control" rows="3" required></textarea>
                     </div>
 
-                    <form class="mt-4">
-                      <div class="mb-3">
-                          <label class="form-label fw-bold">Codice promozionale (opzionale)</label>
-                          <input type="text" class="form-control">
-                      </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Codice promozionale (opzionale)</label>
+                        <input type="text" id="codicePromo" class="form-control">
+                        <div id="promoError" class="promo-error">Codice promozionale non valido</div>
+                        <div id="promoSuccess" class="promo-success">Codice promozionale applicato!</div>
+                    </div>
 
-                      <div class="col-12">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                          <label class="form-check-label" for="invalidCheck">Accetto la Privacy Policy</label>
+                    <div class="mb-3 form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="privacyCheck" required>
+                        <label class="form-check-label" for="privacyCheck">Accetto la Privacy Policy</label>
+                    </div>
 
+                    <div class="d-flex flex-wrap justify-content-between align-items-center price-container">
+                        <button type="submit" class="btn btn-primary btn-sm mb-2">Calcola preventivo</button>
+                        <div class="text-center mb-2">
+                            <p class="mb-0"><strong>Prezzo finale</strong></p>
+                            <p id="prezzoFinale" class="mb-0"><strong>€ 0,00</strong></p>
                         </div>
-                        <div class="d-flex flex-wrap justify-content-between align-items-center price-container">
-                          <button class="btn btn-primary btn-sm mb-2" type="submit">Calcola preventivo</button>
-                          <div class="text-center mb-2">
-                              <p class="mb-0"><strong>Prezzo finale</strong></p>
-                              <p class="mb-0"><strong>€ 200,00</strong></p>
-                          </div>
-                      </div>
-                    
-                </div>
-            </form>
-        </div>
-        <div class="col-lg-4 mx-5 px-5">
-          <div class="card" style="width: 18rem;">
-            <img src="./img/Flux_Dev_A_whimsical_illustration_of_a_gatto_pompiere_an_anthr_1.jpeg" class="card-img-top" alt="gatto pompiere cartoon">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item"><strong>I nostri contatti</strong>
-                <p class="my-2">Se hai bisogno di aiuto puoi contattarci</p></li>
-              <li class="list-group-item">help@boolfactory.test</li>
-              <li class="list-group-item">+1122334455</li>
-            </ul>
-            <div class="card-body">
-              <a href="#" class="card-link">Help desk</a>
+                    </div>
+                </form>
             </div>
-          </div>
+            
+            <div class="col-lg-4 offset-lg-2 col-md-8 offset-md-2 card-container">
+                <div class="card" style="width: 18rem;">
+                    <img src="./img/Flux_Dev_A_whimsical_illustration_of_a_gatto_pompiere_an_anthr_1.jpeg" class="card-img-top" alt="gatto pompiere cartoon">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>I nostri contatti</strong>
+                            <p class="my-2">Se hai bisogno di aiuto puoi contattarci</p>
+                        </li>
+                        <li class="list-group-item">help@boolfactory.test</li>
+                        <li class="list-group-item">+1122334455</li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="#" class="card-link">Help desk</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-                <div class="footer ">
-                  <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-                    <div class="container  text-body-secondary">
-                      <div class="col-lg-5"></div>
-                         <div class="copyright col-md-12">© 2024 - Tutti i diritti riservati</div>
-                        </div>
-                    </div>
-                  </div>
+
+    <footer class="footer mt-5">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+            <div class="container">
+                <div class="copyright text-center w-100 py-2 text-light">© 2024 - Tutti i diritti riservati</div>
+            </div>
+        </nav>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/preventivo.js"></script>
 </body>
 </html>
-
